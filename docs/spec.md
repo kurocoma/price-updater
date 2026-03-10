@@ -267,7 +267,7 @@ price_change_log:    価格改定明細ログ
 | NE | OAuth2 (access_token + refresh_token) | access_token: 短期 | refresh_token で自動更新。期限切れ時は再ログイン |
 | 楽天 | serviceSecret + licenseKey | licenseKey: 3ヶ月 | RMS管理画面で手動再発行 → .env 更新 |
 | Yahoo | seller_id + access_token (+ refresh_token) | access_token: 短期 | refresh_token で自動更新 |
-| Shopify | Admin API token (Custom App) | 無期限 | 取り消さない限り有効 |
+| Shopify | Client Credentials Grant (Dev Dashboard) | access_token: 24時間 | client_id + client_secret で都度取得 |
 
 ## 13. 環境変数（.env）
 
@@ -284,13 +284,16 @@ RAKUTEN_SERVICE_SECRET=
 RAKUTEN_LICENSE_KEY=
 
 # Yahoo!ショッピング
+YAHOO_CLIENT_ID=
+YAHOO_CLIENT_SECRET=
 YAHOO_SELLER_ID=
 YAHOO_ACCESS_TOKEN=
 YAHOO_REFRESH_TOKEN=
 
-# Shopify
+# Shopify (Dev Dashboard — Client Credentials Grant)
 SHOPIFY_STORE_DOMAIN=
-SHOPIFY_ADMIN_API_TOKEN=
+SHOPIFY_CLIENT_ID=
+SHOPIFY_CLIENT_SECRET=
 ```
 
 ## 14. スコープ外（Phase 2 以降）

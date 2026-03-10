@@ -1,8 +1,9 @@
 # Shopify Admin API Contract
 
 ## 認証
-- **方式**: Custom App Admin API アクセストークン
-- **有効期限**: 無期限（手動取り消しまで有効）
+- **方式**: Dev Dashboard — Client Credentials Grant
+- **フロー**: `client_id` + `client_secret` → `POST /admin/oauth/access_token` → `access_token`（24時間有効）
+- **トークン自動更新**: 有効期限の60秒前にキャッシュ無効化し再取得
 - **API バージョン**: 2024-10
 - **プロトコル**: GraphQL Admin API
 
@@ -65,7 +66,8 @@ variables: {
 ## 環境変数
 ```
 SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-SHOPIFY_ADMIN_API_TOKEN=
+SHOPIFY_CLIENT_ID=
+SHOPIFY_CLIENT_SECRET=
 ```
 
 ## 接続テスト

@@ -3,7 +3,8 @@
 ## 認証
 - **方式**: seller_id + Bearer access_token
 - **トークン**: access_token (短期) + refresh_token (長期)
-- **リフレッシュ**: refresh_token で自動更新
+- **リフレッシュ**: `client_id:client_secret` で Basic 認証し `refresh_token` で自動更新
+- **再認証**: `/api/auth/yahoo` → Yahoo OAuth2 Authorization Code Flow → callback でトークン取得
 
 ## 更新フロー（3ステップ必須）
 
@@ -57,6 +58,8 @@ Authorization: Bearer {access_token}
 
 ## 環境変数
 ```
+YAHOO_CLIENT_ID=
+YAHOO_CLIENT_SECRET=
 YAHOO_SELLER_ID=
 YAHOO_ACCESS_TOKEN=
 YAHOO_REFRESH_TOKEN=

@@ -17,6 +17,7 @@ interface TestResult {
 export default function SettingsPage() {
   const [statuses, setStatuses] = useState<MallAuthStatus[]>([]);
   const [neAuthUrl, setNeAuthUrl] = useState<string | null>(null);
+  const [yahooAuthUrl, setYahooAuthUrl] = useState<string | null>(null);
   const [testResults, setTestResults] = useState<Record<string, TestResult>>(
     {}
   );
@@ -27,6 +28,7 @@ export default function SettingsPage() {
     const data = await res.json();
     setStatuses(data.statuses);
     setNeAuthUrl(data.neAuthUrl);
+    setYahooAuthUrl(data.yahooAuthUrl);
   }, []);
 
   useEffect(() => {
@@ -86,6 +88,16 @@ export default function SettingsPage() {
                     className="rounded bg-orange-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-orange-600"
                   >
                     NE認証
+                  </a>
+                )}
+
+                {/* Yahoo未認証時: OAuth認証ボタン */}
+                {s.mall === "yahoo" && yahooAuthUrl && (
+                  <a
+                    href={yahooAuthUrl}
+                    className="rounded bg-red-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600"
+                  >
+                    Yahoo認証
                   </a>
                 )}
 
@@ -157,12 +169,16 @@ RAKUTEN_SERVICE_SECRET=your_service_secret
 RAKUTEN_LICENSE_KEY=your_license_key
 
 # --- Yahoo!ショッピング ---
+YAHOO_CLIENT_ID=your_client_id
+YAHOO_CLIENT_SECRET=your_client_secret
 YAHOO_SELLER_ID=your_seller_id
-YAHOO_ACCESS_TOKEN=your_access_token
+YAHOO_ACCESS_TOKEN=  # OAuth認証後に自動設定
+YAHOO_REFRESH_TOKEN= # OAuth認証後に自動設定
 
-# --- Shopify ---
+# --- Shopify (Client Credentials Grant) ---
 SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-SHOPIFY_ADMIN_API_TOKEN=your_admin_api_token`}
+SHOPIFY_CLIENT_ID=your_client_id
+SHOPIFY_CLIENT_SECRET=your_client_secret`}
             </pre>
           </details>
         </div>

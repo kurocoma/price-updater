@@ -38,7 +38,19 @@ Response: 200 OK (or 401 Unauthorized)
 - **税抜** (NE と同じ基準、変換不要)
 
 ## 現在価格の取得
-- **方式**: ItemAPI で都度取得（M04で決定済み）
+```
+GET https://api.rms.rakuten.co.jp/es/2.0/items/manage-numbers/{manageNumber}
+Authorization: ESA {credentials}
+
+Response: 200 OK
+{
+  "manageNumber": "xxx",
+  "variants": [
+    { "standardPrice": 980, ... }
+  ]
+}
+```
+- 最初の variant の `standardPrice` を現在価格として使用
 
 ## 環境変数
 ```

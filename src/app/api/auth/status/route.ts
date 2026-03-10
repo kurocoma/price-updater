@@ -44,24 +44,27 @@ export async function GET() {
       mall: "yahoo",
       label: "Yahoo!ショッピング",
       configured: !!(
-        process.env.YAHOO_SELLER_ID && process.env.YAHOO_ACCESS_TOKEN
+        process.env.YAHOO_SELLER_ID &&
+        (process.env.YAHOO_ACCESS_TOKEN || process.env.YAHOO_REFRESH_TOKEN)
       ),
-      details:
-        process.env.YAHOO_SELLER_ID && process.env.YAHOO_ACCESS_TOKEN
+      details: process.env.YAHOO_SELLER_ID
+        ? process.env.YAHOO_ACCESS_TOKEN || process.env.YAHOO_REFRESH_TOKEN
           ? "設定済み"
-          : "seller_id / access_token が未設定",
+          : "OAuth認証が必要です"
+        : "YAHOO_SELLER_ID が未設定",
     },
     {
       mall: "shopify",
       label: "Shopify",
       configured: !!(
         process.env.SHOPIFY_STORE_DOMAIN &&
-        process.env.SHOPIFY_ADMIN_API_TOKEN
+        process.env.SHOPIFY_CLIENT_ID &&
+        process.env.SHOPIFY_CLIENT_SECRET
       ),
       details:
-        process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_ADMIN_API_TOKEN
+        process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_CLIENT_ID
           ? `設定済み（${process.env.SHOPIFY_STORE_DOMAIN}）`
-          : "storeDomain / adminApiToken が未設定",
+          : "SHOPIFY_CLIENT_ID / SHOPIFY_CLIENT_SECRET が未設定",
     },
   ];
 
@@ -70,5 +73,12 @@ export async function GET() {
       ? getAuthorizationUrl()
       : null;
 
-  return NextResponse.json({ statuses, neAuthUrl });
+  const yahooAuthUrl =
+    process.env.YAHOO_CLIENT_ID &&
+    process.env.YAHOO_SELLER_ID &&
+    !process.env.YAHOO_ACCESS_TOKEN
+      ? "/api/auth/yahoo"
+      : null;
+
+  return NextResponse.json({ statuses, neAuthUrl, yahooAuthUrl });
 }
