@@ -73,6 +73,7 @@ export default function PricingPage() {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const [runId, setRunId] = useState<string | null>(null);
 
   // --- Step 1: CSV Upload ---
   const handleUpload = useCallback(async (file: File) => {
@@ -122,7 +123,7 @@ export default function PricingPage() {
   }, []);
 
   // --- Step 2 → 3: Fetch Preview ---
-  const fetchPreview = async (
+  const fetchPreview = useCallback(async (
     singleItems: UploadItem[],
     setEntries: SetPriceEntry[]
   ) => {
@@ -170,7 +171,7 @@ export default function PricingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedMalls]);
 
   const handleSetPricesDone = () => {
     const missing = setPrices.filter((s) => s.newPrice === null);
@@ -184,6 +185,47 @@ export default function PricingPage() {
     fetchPreview(items, setPrices);
   };
 
+  // --- Prepare (create run + logs) ---
+  const handlePrepare = useCallback(async () => {
+    setLoading(true);
+    setErrors([]);
+    try {
+      const activeMalls = Object.entries(selectedMalls)
+        .filter(([, v]) => v)
+        .map(([k]) => k);
+
+      const prepareItems = preview.map((item) => ({
+        syohinCode: item.syohinCode,
+        isSet: item.isSet,
+        newPriceTaxExcluded: item.newPriceTaxExcluded,
+        taxRate: item.taxRate,
+        malls: [
+          ...(selectedMalls.ne ? [{ mall: "ne", mallCode: item.syohinCode, oldPrice: item.ne.currentPrice, newPrice: item.ne.newPrice }] : []),
+          ...(selectedMalls.rakuten ? [{ mall: "rakuten", mallCode: item.rakuten.mallCode, oldPrice: item.rakuten.currentPrice, newPrice: item.rakuten.newPrice }] : []),
+          ...(selectedMalls.yahoo ? [{ mall: "yahoo", mallCode: item.yahoo.mallCode, oldPrice: item.yahoo.currentPrice, newPrice: item.yahoo.newPrice }] : []),
+          ...(selectedMalls.shopify ? [{ mall: "shopify", mallCode: item.shopify.mallCode, oldPrice: item.shopify.currentPrice, newPrice: item.shopify.newPrice }] : []),
+        ],
+      }));
+
+      const res = await fetch("/api/pricing/prepare", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: prepareItems, selectedMalls: activeMalls }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setRunId(data.runId);
+      } else {
+        setErrors([data.error]);
+      }
+    } catch (e) {
+      setErrors([String(e)]);
+    } finally {
+      setLoading(false);
+    }
+  }, [preview, selectedMalls]);
+
   // --- Reset ---
   const handleReset = () => {
     setStep("upload");
@@ -192,6 +234,7 @@ export default function PricingPage() {
     setSetPrices([]);
     setPreview([]);
     setErrors([]);
+    setRunId(null);
   };
 
   return (
@@ -271,6 +314,9 @@ export default function PricingPage() {
           onMallToggle={(mall) =>
             setSelectedMalls((prev) => ({ ...prev, [mall]: !prev[mall] }))
           }
+          onPrepare={handlePrepare}
+          loading={loading}
+          runId={runId}
         />
       )}
     </div>
@@ -479,10 +525,16 @@ function PreviewStep({
   preview,
   selectedMalls,
   onMallToggle,
+  onPrepare,
+  loading,
+  runId,
 }: {
   preview: PreviewItem[];
   selectedMalls: Record<string, boolean>;
   onMallToggle: (mall: string) => void;
+  onPrepare: () => void;
+  loading: boolean;
+  runId: string | null;
 }) {
   return (
     <div className="space-y-4">
@@ -577,9 +629,24 @@ function PreviewStep({
         </table>
       </div>
 
-      <p className="text-xs text-gray-500">
-        ※ 価格反映の実行は次のマイルストーン（M07〜M10）で実装されます
-      </p>
+      {runId ? (
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+          <p className="font-medium text-green-800">
+            実行準備完了（Run ID: {runId.slice(0, 8)}...）
+          </p>
+          <p className="mt-1 text-xs text-green-600">
+            価格反映の実行は M07〜M10 で実装されます
+          </p>
+        </div>
+      ) : (
+        <button
+          onClick={onPrepare}
+          disabled={loading}
+          className="rounded bg-green-600 px-6 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+        >
+          {loading ? "準備中..." : "実行準備（Run作成）"}
+        </button>
+      )}
     </div>
   );
 }

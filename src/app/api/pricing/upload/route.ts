@@ -54,6 +54,16 @@ export async function POST(req: NextRequest) {
         errors.push(`行${i + 2}: new_price が不正です（${priceStr}）`);
         continue;
       }
+      if (!Number.isInteger(price)) {
+        errors.push(`行${i + 2}: new_price は整数で指定してください（${priceStr}）`);
+        continue;
+      }
+
+      // 重複チェック
+      if (priceEntries.some((e) => e.syohinCode === code)) {
+        errors.push(`行${i + 2}: syohin_code "${code}" が重複しています`);
+        continue;
+      }
 
       priceEntries.push({ syohinCode: code, newPrice: price });
     }

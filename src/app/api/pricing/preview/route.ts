@@ -30,7 +30,7 @@ interface PreviewResponseItem {
   taxRate: number;
   ne: { currentPrice: number; newPrice: number; found: boolean };
   rakuten: PreviewMallEntry;
-  yahoo: PreviewMallEntry & { salePrice: number | null; rawXml: string | null };
+  yahoo: PreviewMallEntry & { salePrice: number | null };
   shopify: PreviewMallEntry & { variantId: string; productId: string };
 }
 
@@ -81,7 +81,6 @@ export async function POST(req: NextRequest) {
           currentPrice: current?.yahoo.price ?? 0,
           newPrice: taxIncluded, // Yahoo は税込
           salePrice: current?.yahoo.salePrice ?? null,
-          rawXml: current?.yahoo.rawXml ?? null,
           found: current?.yahoo.found ?? false,
         },
         shopify: {
