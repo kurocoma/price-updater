@@ -1,7 +1,30 @@
+# === Environment & Secrets ===
 .env
-node_modules/
-.next/
+.env.*
+!.env.example
+
+# === Runtime data ===
 *.db
+*.sqlite*
 data/
 backups/
+logs/
+
+# === Certificates ===
+certs/
+
+# === Real CSV data ===
 docs/**/*.csv
+
+# === Node / Next.js ===
+node_modules/
+.next/
+out/
+coverage/
+
+# === Claude Code (personal) ===
+.claude/settings.local.json
+
+# === OS ===
+Thumbs.db
+.DS_Store

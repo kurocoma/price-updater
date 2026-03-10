@@ -1,0 +1,61 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev *)",
+      "Bash(npm run build)",
+      "Bash(npm run lint)",
+      "Bash(npx tsc --noEmit *)",
+      "Bash(npm test *)",
+      "Bash(npm run db:generate)",
+      "Bash(npm run db:migrate)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Edit(.env)",
+      "Edit(.env.*)",
+      "Read(backups/**)",
+      "Read(data/**)",
+      "Read(certs/**)",
+      "Read(logs/**)",
+      "Read(docs/**/*.csv)",
+      "Write(backups/**)",
+      "Write(data/**)",
+      "Write(certs/**)",
+      "Write(logs/**)",
+      "Bash(rm -rf *)",
+      "Bash(curl *)",
+      "Bash(wget *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/protect-sensitive-paths.mjs"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/run-relevant-checks.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

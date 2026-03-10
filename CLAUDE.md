@@ -1,45 +1,39 @@
 # 商品価格改定ツール
 
-## プロジェクト概要
-NEの商品マスタをベースに、複数モール（楽天・Yahoo・Shopify・NE）の商品価格を一括改定するWebツール。
-
-## ドキュメント
+## Source of Truth
 - 要件定義: `docs/spec.md`
 - 実装計画: `plans/plan.md`
+- 現在の進捗: `plans/current.md`
+- アーキテクチャ: `docs/architecture.md`
+- API契約: `docs/api-contracts/*.md`
 
-## 技術スタック
-- Next.js (App Router) + TypeScript
-- shadcn/ui + Tailwind CSS
+仕様変更は必ず docs/spec.md を先に更新し、plans/plan.md と整合させること。
+暗黙の仕様変更は禁止。
+
+## 技術スタック（固定）
+- Next.js 15 (App Router) + TypeScript (strict)
+- Tailwind CSS v4 + shadcn/ui
 - SQLite + Drizzle ORM
-- APIキー管理: `.env`（ローカル保存）
+- APIキー: `.env`（ローカル保存、Git 非管理）
 
-## NE API 設定（未確定 → 審査前に要確認）
+## 作業ルール
+1. **1マイルストーンずつ** 実装する。飛ばさない。
+2. 実装前に `plans/milestones/M{XX}-*.md` の受入基準を確認する。
+3. 完了したら `plans/current.md` を更新する。
+4. `.env`, `data/`, `backups/`, `certs/`, `logs/` は読まない・書かない。
+5. 実データ CSV (`docs/**/*.csv`) は読まない。テスト用は `tests/fixtures/csv/sanitized/` を使う。
+6. 外部 API client は `src/lib/auth/` に集約。client component に secret を渡さない。
 
-### 実行設定
-| 項目 | 現在の設定 | 備考 |
-|---|---|---|
-| 実行方法 | 単独機能として実行 ✅ | OK。アプリ一覧から起動 |
-| NE拡張機能として実行 | ☐ 未チェック | 商品マスタ画面からの起動は不要（自前UIから操作するため） |
-| アプリの設定画面有無 | ☐ 未チェック | 設定は自前UIで行うため不要 |
-| アプリの開き方 | 新しいウィンドウで開く | OK |
-| アプリのマニュアルURL | 未設定 | 審査時に必要なら後で設定 |
-| 単独機能の機能分類 | 分類なし | OK |
+## ディレクトリ規約
+```
+src/app/          → ページ & Route Handler（薄く保つ）
+src/lib/          → サーバー専用ロジック（auth, csv, pricing, malls）
+src/components/   → UIコンポーネント
+src/db/           → Drizzle schema & DB接続
+tests/            → unit / integration / contracts
+plans/            → 計画 & マイルストーン
+docs/             → 仕様 & ADR
+```
 
-### アクセス情報（権限設定）
-| 項目 | 必要な設定 | 理由 |
-|---|---|---|
-| **マスタ情報取得** | **許可する** | 商品マスタ（syohin_basic / set_syohin）の読み取りに必要 |
-| **マスタ情報更新** | **許可する** | baika_tnk / set_baika_tnk の価格更新に必要 |
-| 受注情報取得 | 許可しない | 受注データは使用しない |
-| 受注情報更新 | 許可しない | 受注データは使用しない |
-| 発注・仕入情報取得 | 許可しない | 発注データは使用しない |
-| 利用者情報取得 | 許可しない | ユーザー情報は使用しない |
-| システム情報取得 | 許可しない | システム情報は使用しない |
-| 実行結果のお知らせ通知 | 許可しない | 通知機能は Phase 1 では不要 |
-
-### TODO
-- [ ] アクセス情報で「マスタ情報取得」「マスタ情報更新」を「許可する」に変更
-- [ ] 「内容を保存」をクリック
-- [ ] Shopify Admin API トークン取得（Custom App 作成）
-- [ ] 楽天 RMS API の serviceSecret / licenseKey を .env に追記
-- [ ] Yahoo ストアAPI の seller_id / access_token を .env に追記
+## 詳細ルール
+→ `.claude/rules/` を参照（path-glob ベースで自動適用）
