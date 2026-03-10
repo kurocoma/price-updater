@@ -10,34 +10,37 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.21.0",
+    "better-sqlite3": "^11.8.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.40.0",
+    "encoding-japanese": "^2.2.0",
+    "lucide-react": "^0.475.0",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "drizzle-orm": "^0.40.0",
-    "better-sqlite3": "^11.8.0",
-    "@tanstack/react-table": "^8.21.0",
-    "encoding-japanese": "^2.2.0",
-    "uuid": "^11.1.0",
-    "clsx": "^2.1.1",
     "tailwind-merge": "^3.0.0",
-    "class-variance-authority": "^0.7.1",
-    "lucide-react": "^0.475.0"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "@types/better-sqlite3": "^7.6.12",
     "@types/uuid": "^10.0.0",
-    "typescript": "^5.8.0",
     "drizzle-kit": "^0.30.0",
-    "@tailwindcss/postcss": "^4.1.0",
-    "tailwindcss": "^4.1.0",
     "eslint": "^9.24.0",
     "eslint-config-next": "^15.3.0",
-    "@eslint/eslintrc": "^3.3.0"
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.8.0",
+    "vitest": "^4.0.18"
   }
 }

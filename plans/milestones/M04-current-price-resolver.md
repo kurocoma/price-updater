@@ -1,6 +1,6 @@
 # M04: 現在価格リゾルバー
 
-**Status**: pending
+**Status**: done
 **Depends on**: M03
 
 ## 概要
@@ -16,10 +16,10 @@
 - モールに商品が存在しない場合のスキップ処理
 
 ## 受入基準
-- [ ] NE: DB から現在価格を取得できる
-- [ ] 楽天: ItemAPI で現在価格を取得できる
-- [ ] Yahoo: getItem で現在価格 + 全フィールドを取得できる
-- [ ] Shopify: productVariants で現在価格 + variantId/productId を取得できる
-- [ ] Shopify ID が shopify_id_cache にキャッシュされる
-- [ ] himoduke 変換が正しく動作する
-- [ ] 存在しない商品がスキップされる
+- [x] NE: DB から現在価格を取得できる
+- [x] 楽天: ItemAPI で現在価格を取得できる
+- [x] Yahoo: getItem で現在価格 + 全フィールドを取得できる
+- [x] Shopify: productVariants で現在価格 + variantId/productId を取得できる
+- [x] Shopify ID が shopify_id_cache にキャッシュされる
+- [x] himoduke 変換が正しく動作する
+- [x] 存在しない商品がスキップされる
