@@ -21,6 +21,7 @@ node_modules/
 .next/
 out/
 coverage/
+tsconfig.tsbuildinfo
 
 # === Claude Code (personal) ===
 .claude/settings.local.json
