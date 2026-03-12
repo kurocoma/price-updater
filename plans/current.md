@@ -3,7 +3,7 @@
 > Last updated: 2026-03-12
 
 ## Active Milestone
-**M11** — next
+**M12** — next
 
 ## Completed
 | Milestone | Summary | Date |
@@ -18,11 +18,11 @@
 | M08 | 楽天 RMS API連携 | 2026-03-12 |
 | M09 | Yahoo API連携 | 2026-03-12 |
 | M10 | Shopify API連携 | 2026-03-12 |
+| M11 | 反映結果 & リトライ | 2026-03-12 |
 
 ## Pending
 | Milestone | Depends On |
 |---|---|
-| M11 | M07-M10 |
 | M12 | M11 |
 
 ## Known Blockers
