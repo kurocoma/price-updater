@@ -1,6 +1,6 @@
 # M09: API連携 — Yahoo!ショッピング
 
-**Status**: pending
+**Status**: done
 **Depends on**: M05
 
 ## 概要
@@ -17,10 +17,10 @@ Yahoo ストア API の 3ステップフロー（getItem → editItem → reserv
 - エラーハンドリング（editItem成功 + reservePublish失敗 → reservePublishのみリトライ）
 
 ## 受入基準
-- [ ] Yahoo の商品価格が更新される（税込、floor）
-- [ ] 3ステップフローが正しく実行される
-- [ ] editItem で省略フィールドのデフォルト上書きが発生しない
-- [ ] sale_price がリセットされない
-- [ ] reservePublish 後にフロント反映される
-- [ ] reservePublish のレート制限を遵守
-- [ ] editItem成功 + reservePublish失敗時に reservePublish のみリトライ可能
+- [x] Yahoo の商品価格が更新される（税込、floor）
+- [x] 3ステップフローが正しく実行される
+- [x] editItem で省略フィールドのデフォルト上書きが発生しない
+- [x] sale_price がリセットされない
+- [x] reservePublish 後にフロント反映される
+- [x] reservePublish のレート制限を遵守
+- [x] editItem成功 + reservePublish失敗時に reservePublish のみリトライ可能

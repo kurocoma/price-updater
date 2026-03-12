@@ -3,7 +3,7 @@
 > Last updated: 2026-03-12
 
 ## Active Milestone
-**M09** — next
+**M10** — next
 
 ## Completed
 | Milestone | Summary | Date |
@@ -16,11 +16,11 @@
 | M06 | バックアップ機能 | 2026-03-12 |
 | M07 | NE API連携 | 2026-03-12 |
 | M08 | 楽天 RMS API連携 | 2026-03-12 |
+| M09 | Yahoo API連携 | 2026-03-12 |
 
 ## Pending
 | Milestone | Depends On |
 |---|---|
-| M09 | M05 |
 | M10 | M05 |
 | M11 | M07-M10 |
 | M12 | M11 |
