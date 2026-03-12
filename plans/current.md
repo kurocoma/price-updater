@@ -3,7 +3,7 @@
 > Last updated: 2026-03-12
 
 ## Active Milestone
-**M08** — next
+**M09** — next
 
 ## Completed
 | Milestone | Summary | Date |
@@ -15,11 +15,11 @@
 | M05 | 価格改定コア機能 | 2026-03-11 |
 | M06 | バックアップ機能 | 2026-03-12 |
 | M07 | NE API連携 | 2026-03-12 |
+| M08 | 楽天 RMS API連携 | 2026-03-12 |
 
 ## Pending
 | Milestone | Depends On |
 |---|---|
-| M08 | M05 |
 | M09 | M05 |
 | M10 | M05 |
 | M11 | M07-M10 |
