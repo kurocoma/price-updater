@@ -1,6 +1,6 @@
 # M07: API連携 — ネクストエンジン
 
-**Status**: pending
+**Status**: done
 **Depends on**: M05
 
 ## 概要
@@ -13,7 +13,7 @@ NE API を使って baika_tnk / set_baika_tnk の価格更新を実行する。
 - エラーハンドリング
 
 ## 受入基準
-- [ ] NE 商品マスタの baika_tnk が更新される
-- [ ] セット商品の set_baika_tnk が更新される
-- [ ] 非同期処理の完了を確認できる
-- [ ] エラー時に `price_change_log` に記録される
+- [x] NE 商品マスタの baika_tnk が更新される
+- [x] セット商品の set_baika_tnk が更新される
+- [x] 非同期処理の完了を確認できる
+- [x] エラー時に `price_change_log` に記録される

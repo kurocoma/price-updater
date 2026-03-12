@@ -3,7 +3,7 @@
 > Last updated: 2026-03-12
 
 ## Active Milestone
-**M07** — next
+**M08** — next
 
 ## Completed
 | Milestone | Summary | Date |
@@ -14,11 +14,11 @@
 | M04 | 現在価格リゾルバー | 2026-03-11 |
 | M05 | 価格改定コア機能 | 2026-03-11 |
 | M06 | バックアップ機能 | 2026-03-12 |
+| M07 | NE API連携 | 2026-03-12 |
 
 ## Pending
 | Milestone | Depends On |
 |---|---|
-| M07 | M05 |
 | M08 | M05 |
 | M09 | M05 |
 | M10 | M05 |
