@@ -35,5 +35,21 @@ plans/            → 計画 & マイルストーン
 docs/             → 仕様 & ADR
 ```
 
+## 外部API セットアップの注意点
+
+### Shopify（Dev Dashboard — Client Credentials Grant）
+1. **レガシーインストールフローを必ず FALSE にする** — TRUE だと OAuth コールバックサーバーが必要になり `app_not_installed` エラーで詰む
+2. `shpss_` プレフィックスは Client Secret（トークンではない）→ `grant_type=client_credentials` で access_token に交換が必要
+3. Dev Dashboard app のインストール: 設定画面 → Overview → 「アプリをインストール」→ store 選択
+4. 取得した access_token は 24 時間有効。`src/lib/auth/shopify.ts` で 60 秒前にキャッシュ無効化して自動再取得
+
+### Yahoo（OAuth2 + refresh_token）
+1. Yahoo Developer Console で callback URL に `http://localhost:3000/api/auth/yahoo/callback` を登録
+2. dev server は HTTP だが Yahoo は HTTPS にリダイレクトする → ユーザーが手動で http に書き換える必要あり
+3. refresh_token 期限切れ → `invalid_grant (4102)` → `/api/auth/yahoo` で再認証フロー
+
+### 楽天 RMS
+- licenseKey は 3 ヶ月ごとに手動更新が必要（RMS 管理画面で再発行）
+
 ## 詳細ルール
 → `.claude/rules/` を参照（path-glob ベースで自動適用）
